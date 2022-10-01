@@ -1,7 +1,13 @@
 %Lauren Moghimi
 %Plotting Raman Data (updated code)
 %5/17/22
-% plotting figures
+% This code is used to plot figures
+% remember to change the following:
+% - folder_path
+% - all_files (remember to include the file type)
+% - axis
+% - legend
+% - title
 clc
 close all
 %% Opening the data files and plotting in the same figure
@@ -15,23 +21,25 @@ for m = 1:length(all_files)
     filename = all_files(m,1);
     full_path = fullfile(folder_path, filename);
     fid = fopen(full_path,'rt');
-    fprintf(['Loading ',filename,'...'])
+    %fprintf(["Loading ",filename,"..."])
     
     T = readtable(full_path,'ReadRowNames',false);
     x = T{:,1};
     y = T{:,2};
-    
-    y = m*y; %scale vertically to create waterfall plot
+
+    y_max = max(y); y = y/y_max; %normalize
+    %y = m*y; %scale vertically to create waterfall plot
+    plot(x,y,LineWidth=2)
     %TF = islocalmax(y);
     %plot(x,y,x(TF),y(TF),'r*',LineWidth=2)
-    plot(x,y,LineWidth=2)
+    
     
     fid = fclose(fid);
     fprintf('done!\n')
 end
 %% Adjusting Figure Layout
 xlabel('Raman Shift (cm^{-1})','FontSize',16)
-ylabel('a.u.','FontSize',16)
+ylabel('Normalized Counts (a.u.)','FontSize',16)
 axis([min(x) max(x) 0 max(y)]) %%
 %xticks(50:25:200) %%
 
