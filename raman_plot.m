@@ -48,23 +48,27 @@ end
 
 %% Plot
 figure
+f = gcf; f.Position = [45 321 760.8000 444];
 hold on
 xlabel('Raman Shift (cm^{-1})','FontSize',16)
 ylabel('Normalized Counts (a.u.)','FontSize',16)
 title('5 um Fe3O4','FontSize',16) %%
-%
-for m = 1:length(all_files)
-    %y = m*y; %scale vertically to create waterfall plot
-    plot(RawData(m).x,PlottingVars(m).ynorm,LineWidth=2)
-    %TF = islocalmax(y);
-    %plot(x,y,x(TF),y(TF),'r*',LineWidth=2)
+prompt = "What type of plot do you want? 1=normalized overlay; 2=normalized waterfall \n ";
+response = input(prompt);
+if response == 1
+    for m = 1:length(all_files)
+        plot(RawData(m).x,PlottingVars(m).ynorm,LineWidth=2)
+    end
+    axis([min(RawData(m).x) max(RawData(m).x) 0 1])
+    hold off
+elseif response == 2
+    for m = 1:length(all_files)
+        plot(RawData(m).x,PlottingVars(m).ynorm * m,LineWidth=2); %scale vertically to create waterfall plot 
+        %TF = islocalmax(y);
+        %plot(x,y,x(TF),y(TF),'r*',LineWidth=2)
+    end
+    axis([min(RawData(m).x) max(RawData(m).x) 0 max(PlottingVars(m).ynorm) * m])
+    hold off
 end
-%
-axis([min(RawData(m).x) max(RawData(m).x) 0 1]) %%
-%%label the series in the order that they were inputted above
-%legend(all_files) %%
-legend(["5um_01 divided by 5um_02";"5um_02 divided by 5um_02";"5um_03 divided by 5um_02"]);
-hold off
-
-
-
+%legend(all_files,'Location','bestoutside') %%
+legend(["5um_01 divided by 5um_02";"5um_02 divided by 5um_02";"5um_03 divided by 5um_02"],'Location','bestoutside');
