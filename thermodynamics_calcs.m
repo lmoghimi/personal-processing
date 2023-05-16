@@ -82,8 +82,7 @@ for i=1: length(T)
 end
 %% enthalpy of formation of water
 %GAS phase thermodynamic data: https://webbook.nist.gov/cgi/cbook.cgi?ID=C7732185&Mask=1#Thermo-Gas
-%what T range is Subh using in each branch of the tree, and what phase
-%information is she using?
+%LIQUID phase thermodynamic data: https://webbook.nist.gov/cgi/cbook.cgi?ID=C7732185&Mask=2#Thermo-Condensed
 
 h_water=zeros(1,length(T));
 for i=1: length(T)
@@ -100,7 +99,9 @@ for i=1: length(T)
         A=-203.61; B=1523.29; C=-3196.41; D=2474.46; E=3.86; F=-256.55; H=-285.83;
          h_sens=A*t+B*(t^2)*0.5+C*(t^3)*(1/3)+D*(t^4)*0.25-E/t+F-H
         h_magnetite(i)=h_sens+h_chem; %kJ/mol enthalpy of formation of water
-        %%again, why magnetite?
+        %%%%%%%%again, why magnetite?
+    else
+        disp('Error: T is outside the range for water')
     end 
 end
 %% enthalpy of formation of hydrogen
@@ -108,15 +109,17 @@ h_chem=0; %kJ/mol
 h_hydrogen=zeros(1,length(T));
 for i=1: length(T)
     t=T(i)/1000; %K
-    if T(i)<1000
+    if T(i) > 198 && T(i)<1000
         A=33.07; B=-11.36; C=11.43; D=-2.77; E=-0.16; F=-9.98; H=0; 
         h_sens=A*t+B*(t^2)*0.5+C*(t^3)*(1/3)+D*(t^4)*0.25-E/t+F-H;
-    else
+    elseif T(i) > 1000 && T(i)<2500
         A=18.56; B=12.26; C=-2.86; D=0.27; E=1.98; F=-1.15; H=0;
        h_sens=A*t+B*(t^2)*0.5+C*(t^3)*(1/3)+D*(t^4)*0.25-E/t+F-H; 
+    else
+        disp('Error: T is outside the range for hydrogen')
     end    
-    
         h_magnetite(i)=h_sens+h_chem; %kJ/mol
+        %%%%%%%%%why magnetite????
 end
 %% ENTHALPY OF REACTIONS
 
