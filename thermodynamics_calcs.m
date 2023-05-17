@@ -24,8 +24,8 @@ for i=1: length(T)
     else
         disp('Error: T is outside the range for hematite')
     end    
-    H_roomT = h_chem;
-    h_hematite(i) = Hf(A,B,C,D,E,F,H,t,H_roomT); %kJ/mol enthalpy of formation of hematite
+    H_STP = h_chem;
+    h_hematite(i) = Hf(A,B,C,D,E,F,H,t,H_STP); %kJ/mol enthalpy of formation of hematite
 end
 %% enthalpy of formation for magnetite
 %https://webbook.nist.gov/cgi/cbook.cgi?ID=C1309382&Units=SI&Mask=2#Thermo-Condensed
@@ -40,8 +40,8 @@ for i=1: length(T)
     else
         disp('Error: T is outside the range for magnetite')
     end    
-    H_roomT = h_chem;
-    h_magnetite(i) = Hf(A,B,C,D,E,F,H,t,H_roomT); %kJ/mol enthalpy of formation of magnetite
+    H_STP = h_chem;
+    h_magnetite(i) = Hf(A,B,C,D,E,F,H,t,H_STP); %kJ/mol enthalpy of formation of magnetite
 end
 %% enthalpy of formation for wustite
 %https://webbook.nist.gov/cgi/cbook.cgi?ID=C1345251&Units=SI&Mask=2#Thermo-Condensed
@@ -55,8 +55,8 @@ for i=1: length(T)
     else
         disp('Error: T is outside the range for wustite')
     end
-    H_roomT = h_chem;
-    h_wustite(i) = Hf(A,B,C,D,E,F,H,t,H_roomT); %kJ/mol enthalpy of formation of wustite
+    H_STP = h_chem;
+    h_wustite(i) = Hf(A,B,C,D,E,F,H,t,H_STP); %kJ/mol enthalpy of formation of wustite
 end
 
 %% enthalpy of formation of iron
@@ -77,8 +77,8 @@ for i=1: length(T)
     else
         disp('Error: T is outside the range for iron')
     end    
-    H_roomT = h_chem;
-    h_iron(i) = Hf(A,B,C,D,E,F,H,t,H_roomT); %enthalpy of formation of iron
+    H_STP = h_chem;
+    h_iron(i) = Hf(A,B,C,D,E,F,H,t,H_STP); %enthalpy of formation of iron
 end
 %% enthalpy of formation of water
 %GAS phase thermodynamic data: https://webbook.nist.gov/cgi/cbook.cgi?ID=C7732185&Mask=1#Thermo-Gas
