@@ -123,36 +123,36 @@ for i=1: length(T)
 end
 %% ENTHALPY OF REACTIONS
 
-h_r1=(2/3)*h_magnetite+(1/3)*h_water-h_hematite-(1/3)*h_hydrogen;
-h_r2=(3*h_wustite+h_water-h_magnetite-h_hydrogen)*(2/3);
-h_r3=(h_iron+h_water-h_wustite-h_hydrogen)*2;
-h_r4=(3*h_iron+4*h_water-h_magnetite-4*h_hydrogen)*(2/3);
+%the stoichiometric reactions
+h_r1= 2*h_magnetite + h_water - 3* h_hematite - h_hydrogen;
+h_r2= 3*h_wustite+h_water-h_magnetite-h_hydrogen; % happens only if T>570
+h_r3=h_iron+h_water-h_wustite-h_hydrogen; % happens only if T>570
 
+h_r4=3*h_iron+4*h_water-h_magnetite-4*h_hydrogen; % happens only if T<570
+
+%the overall reactions. starting with 1 mol Fe2O3.
 for i=1:length(T)
     if T(i)>570
-  h_r(i)=h_r1(i)+h_r2(i)+h_r3(i);
+        h_r(i)= (1/3)*h_r1(i) + (2/3)*h_r2(i) + 2*h_r3(i);
     else
-        h_r(i)=h_r1(i)+h_r4(i);
+        disp('Error. for T<570, the overall reaction is I --> IV.  Need to write expression for this.')
     end
 end
-
 
 % if moisture goes 60% how will it vary
 %% Plot
 figure()
-plot(T,h_r,'-b','LineWidth',2)
-hold on
-plot(T,h_r1,'--r', 'LineWidth',2)
-hold on
-plot(T,h_r2,'--g','LineWidth',2)
-hold on
-plot(T,h_r3,'--k','LineWidth',2)
-hold on
-plot(T,h_r4,'--m','Linewidth',2)
+plot(T,h_r1,'--r', 'LineWidth',2); hold on
+plot(T,h_r2,'--g','LineWidth',2); hold on
+plot(T,h_r3,'--k','LineWidth',2); hold on
+plot(T,h_r4,'--m','Linewidth',2); hold on
+plot(T,h_r,'-b','LineWidth',2); 
 xlabel('Temperature (K)','interpreter','latex')
-ylabel('Heat of reaction (kJ/mol$_{Fe_2O_3}$)','interpreter','latex')
-title('Heat of reaction (kJ/mol) Vs Temperature (K)')
-legend(['\DeltaH_R overall'], ['\DeltaH_R I'],['\DeltaH_R II'],['\DeltaH_R III'],['\DeltaH_R IV'])
-xlim([300 1700])
+ylabel('Heat of reaction (kJ/mol)','interpreter','latex')
+title('Heats of Reaction for HyDR')
+legend(['\DeltaH_R I'],['\DeltaH_R II'],['\DeltaH_R III'],['\DeltaH_R IV'],['\DeltaH_R overall'],'Location','eastoutside')
+xlim([min(T) max(T)])
 box on
-set(gca,'FontSize',18)
+f=gcf;
+set(gca,'FontSize',15)
+f.Position = [488 333 815.4000 429];
