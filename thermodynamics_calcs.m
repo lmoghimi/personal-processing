@@ -270,9 +270,10 @@ g_std_rxn3 = h_std_rxn3 - T.*s_std_rxn3
 
 g_std_overall_1_3 = g_std_rxn1 + 2*g_std_rxn2 + 6*g_std_rxn3 %NOTE: this requires 3 mol of Fe2O3 for the 
 % rxn to initiate, so I'm NOT dividing the overall expression by 3.
+h_std_overall_1_3 = h_std_rxn1 + 2*h_std_rxn2 + 6*h_std_rxn3
 
 %}
-figure
+figure;
 plot(T,g_std_rxn1,'--r', 'LineWidth',2); hold on
 plot(T,g_std_rxn2,'--g','LineWidth',2); hold on
 plot(T,g_std_rxn3,'--k','LineWidth',2); hold on
@@ -281,8 +282,8 @@ xlabel('Temperature (K)','interpreter','latex'); ylabel('Gibbs of reaction (kJ/m
 title('Approximated Gibbs of Reaction for HyDR')
 legend(['\DeltaG_R I: 3Fe_2O3 + H_2 \rightarrow 2Fe_3O_4 + H_2O'], ...
     ['\DeltaG_R II: Fe_3O_4 + H_2 \rightarrow 3FeO + H_2O'], ...
-    ['\DeltaG_R III: FeO + H_2 \rightarrow Fe + 6H_2O'], ...
-    ['\DeltaG_R overall: 3Fe_2O_3 + H_2 \rightarrow 6Fe + 6H_2O'],'Location','southoutside')
+    ['\DeltaG_R III: FeO + H_2 \rightarrow Fe + H_2O'], ...
+    ['\DeltaG_R overall: 3Fe_2O_3 + 9H_2 \rightarrow 6Fe + 9H_2O'],'Location','southoutside')
 xlim([min(T) max(T)])
 box on
 set(gca,'FontSize',12)
