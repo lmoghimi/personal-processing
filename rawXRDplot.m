@@ -16,8 +16,7 @@ clear all
 close all
 
 % define relevant paths
-%dataPath = 'G:\.shortcut-targets-by-id\1Ub1KldDI6l3sWEWG-Z3QGCtU-hICQ_SY\Decarbonizing steelmaking\APS_SAXS_nano_300C_q\';
-    folder_path = uigetdir('G:\.shortcut-targets-by-id\1Ub1KldDI6l3sWEWG-Z3QGCtU-hICQ_SY\Decarbonizing steelmaking');
+folder_path = uigetdir('G:\.shortcut-targets-by-id\1Ub1KldDI6l3sWEWG-Z3QGCtU-hICQ_SY\Decarbonizing steelmaking\APS_XRD_20220802');
     dataPath = append(folder_path,'\')
 codePath = pwd;
 
@@ -48,7 +47,7 @@ for iNum=1:length(files)
     ind = strfind(filename,'_');
     Data.T(iNum) = str2num(filename(ind(1)+1:ind(2)-2));
     Data.t(iNum) = str2num(filename(ind(2)+1:ind(3)-4));
-    Data.Sequ(iNum) = str2num(filename(ind(3)+1:ind(4)-1));
+    Data.Sequ(iNum) = str2num(filename(ind(3)+1:ind(4)-1)); %run number
     
     % now read the file
 	a = readtable([dataPath,filename]);
@@ -85,14 +84,14 @@ d = flipud(Data.d); %!!!!!!!!!!!!!
 %% Files to plot
 
 %%%
-nPlot = 20; %desired number of scans to plot
+nPlot = 1; %desired number of scans to plot
 
 %increment of files to plot. if you want to plot 20 or fewer scans in one figure and you don't want to skip files to plot, then you can set incr to 1
 %%%
 % incr = ceil(lf/nPlot);
-incr = 1;
+incr = 0;
 %%%
-firstPlot = 31; %the first series that you want to plot. this will typically be 1
+firstPlot = 1; %the first series that you want to plot. this will typically be 1
 
 
 for gNum=1:nPlot
@@ -114,7 +113,8 @@ for gNum=1:nPlot
         sep = 0.1; %desired vertical separation between plotted series 
         shift = gNum*sep; %vertical shift for a given series
         y = shift + I;
-        plot(d,y)
+        x = d; %this will typically be d. but the 350C dat folder is in 2pi/d, so we need this to be 2*pi./d to put this back into d
+        plot(x,y)
 
         legend_text{gNum} = [' ',num2str(Data.T(fNum)),'C, ',num2str(Data.t(fNum)),'{ min}'];
     end
@@ -123,14 +123,14 @@ end
 %% Figure formatting
 
 %%%
-Title = ['APS SAXS nano 300C q:',' fNum=',num2str(firstPlot),'-',num2str(fNum)];
+Title = ['300C',' fNum=',num2str(firstPlot),'-',num2str(fNum)];
 title(Title,'interpreter','latex','FontWeight','bold','FontSize',14) 
 
 axes_fontsize = 14;
 xlabel('d-spacing ({\AA})','interpreter','latex','FontSize',axes_fontsize)
 ylabel('Intensity (a.u.)','interpreter','latex','FontSize',axes_fontsize)
 %%%
-axis([min(d) max(d) 0 max(y)])
+axis([min(x) max(x) 0 max(y)])
 
 lgd = legend(legend_text,'interpreter','latex','Location','bestoutside','FontSize',12);
 
