@@ -120,6 +120,7 @@ for gNum=1:nPlot
     end
 end
 
+%{
 %% Figure formatting
 
 %%%
@@ -136,3 +137,13 @@ lgd = legend(legend_text,'interpreter','latex','Location','bestoutside','FontSiz
 
 %%%
 %set(gca,'FontWeight','bold')
+%}
+
+%% peak fitting
+file = 'nFe3O4_40C_4min_0855_C.dat'; % File name
+range = [0 3.5]; %'all' Deconvolutes the full range, or [minx maxx]
+np = 8; % Number of peaks
+bg = 'bg1'; % Type of background ('bg1' - constant background, 'bg2','bg3' - sloped, 's' - shirley)
+mode = 1; % Type of peak (1 - Voigt, 2 - Lognormal)
+IG = 'auto';
+[ parameters,lb,ub,conf,graphdata,resnorm,residual,r2 ] = DC( file , 'range' , range , 'np' , np , bg , 'IG' , IG , 'mode' , mode );
